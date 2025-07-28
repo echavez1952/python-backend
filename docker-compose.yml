@@ -1,0 +1,14 @@
+
+services:
+  fastapi_app:
+    build: .
+    container_name: ecommerce
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - "C:/Users/edwin/OneDrive/Escritorio/bootcamp/proyecto4gen/backend:/app"
+    environment:
+      MongoDB_URI: mongodb+srv://echavez:m9niwIpgDtEN3d2i@cluster0.l0lkezu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      JWT_SECRET_KEY: secret123
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
