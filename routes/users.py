@@ -1,7 +1,19 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request, HTTPException
 
-router = APIRouter(prefix='/users',tags=['users'])
+from services.user_service import get_users, update_user
+from models.User import UserUpdate
+router = APIRouter(prefix="/users", tags=["users"])
 
 
+@router.get("/")
+def get_users_route(request: Request, role: str = None, first_name: str = None,  start_birth_date: str = None, end_birth_date: str = None):
+    if not hasattr(request.state, "user"):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    return get_users(role=role, first_name=first_name, start_birth_date=start_birth_date, end_birth_date=end_birth_date)
 
 
+@router.put("/{user_id}")
+def update_user_router(request: Request, user_id: str, user: UserUpdate):
+    if not hasattr(request.state, "user"):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    return update_user(user_id = user_id, user= user)

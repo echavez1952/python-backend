@@ -1,5 +1,6 @@
 # servicios de crear y loguear, lógica del negocio en la parte de autenticación
 
+from datetime import datetime, timedelta
 from database.mongo import db
 import bcrypt
 import jwt
@@ -31,10 +32,11 @@ def register(user):
 
 
 def login(email, password):
-    user_exist = user_db.find_one({'email':email})
+    user_exist = user_db.find_one({'email': email})
     if not user_exist:
         return {"message": "User not found"}
-
+    
+    # Si existe el usuario, entonces chequea el password con el metodo bcrypt
     check_password = bcrypt.checkpw(password.encode('utf-8'),user_exist['password'].encode('utf-8'))
 
     if not check_password:
@@ -43,9 +45,18 @@ def login(email, password):
     user_exist['_id'] = str(user_exist['_id'])
     user_exist['password'] = None
     secret_key = os.getenv("JWT_SECRET_KEY")
-    token = jwt.encode(user_exist, secret_key, algorithm='HS256')
 
-    return {
+    payload = {                                                 # construye el payload que forma parte del token
+        "id": user_exist['_id'],
+        "first_name": user_exist['first_name'],
+        "last_name": user_exist['last_name'],
+        "email": user_exist['email'],
+        "password": user_exist['password'],
+        "exp": datetime.utcnow() + timedelta(hours=1)
+    }
+    token = jwt.encode(payload, secret_key, algorithm='HS256')   # JWT genera el token
+    print("Login successful - Backend returns the token:", token)   #  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....
+    return {                                                # retorna el mensaje, el user, y el token
         "message": "Login Completed Successfully",
         "user": user_exist,
         "token": token
