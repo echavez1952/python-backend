@@ -20,3 +20,7 @@ except Exception as e:
 
 # Access the database
 db = client['ecommerce']
+
+
+
+

@@ -1,0 +1,101 @@
+{
+  "info": {
+    "name": "Uko Bread - Menu y Items",
+    "_postman_id": "a7c2b914-64db-4d1d-8b8f-f6c748d3c9af",
+    "description": "Colección para probar endpoints de componentes e items del menú con FastAPI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1 - Crear componente",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Pan integral\",\n    \"price\": 3.5,\n    \"description\": \"Pan integral artesanal con semillas\",\n    \"category\": \"Panadería\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/menu/components",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["menu", "components"]
+        }
+      }
+    },
+    {
+      "name": "2 - Crear item hijo",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Baguette integral\",\n    \"price\": 2.0,\n    \"description\": \"Baguette de harina integral\",\n    \"note\": \"Disponible solo en la mañana\",\n    \"image_url\": \"https://ejemplo.com/baguette.jpg\",\n    \"component_id\": \"{{component_id}}\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/menu/items",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["menu", "items"]
+        }
+      }
+    },
+    {
+      "name": "3 - Listar items por componente",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8000/menu/items/{{component_id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["menu", "items", "{{component_id}}"]
+        }
+      }
+    },
+    {
+      "name": "4 - Eliminar componente y sus items",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:8000/menu/components/{{component_id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["menu", "components", "{{component_id}}"]
+        }
+      }
+    },
+    {
+      "name": "5 - Verificar items eliminados",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8000/menu/items/{{component_id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["menu", "items", "{{component_id}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "component_id",
+      "value": "64f9b1e4d2f51b1234567890"
+    }
+  ]
+}

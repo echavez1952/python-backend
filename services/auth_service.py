@@ -52,7 +52,7 @@ def login(email, password):
         "last_name": user_exist['last_name'],
         "email": user_exist['email'],
         "password": user_exist['password'],
-        "exp": datetime.utcnow() + timedelta(hours=1)
+        "exp": datetime.utcnow() + timedelta(hours=4)
     }
     token = jwt.encode(payload, secret_key, algorithm='HS256')   # JWT genera el token
     print("Login successful - Backend returns the token:", token)   #  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....
