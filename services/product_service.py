@@ -23,8 +23,8 @@ def get_products():
     except Exception as e:
         print(f"Error al obtener productos: {e}")
         return {"error": "No se pudo obtener la lista de productos"}
-
-# Crear un producto - POSTMAN funciona ok
+"""
+# Crear un producto - JSON y form-data
 def create_product(title: str, component_id: str):
     product_data = {
         "title": title,
@@ -37,6 +37,19 @@ def create_product(title: str, component_id: str):
     return {
        "message": "Product created successfully",
        "product": product_data
+    }
+"""
+
+def create_product(title: str, component_id: str):
+    product_data = {
+        "title": title,
+        "component_id": component_id  # se guarda como string
+    }
+    result = product_collection.insert_one(product_data)
+    product_data["_id"] = str(result.inserted_id)
+    return {
+        "message": "Product created successfully",
+        "product": product_data
     }
 
 

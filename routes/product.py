@@ -18,20 +18,31 @@ router = APIRouter(prefix="/product", tags=["product"])
 def get_products_route():
     return get_products()
 
+# Opcion 1
+# Crear un producto manteniendo el backend para aceptar JSON
+# El endpoint en FastAPI para que acepte un modelo Pydantic:
+
+# class ProductCreate(BaseModel):
+#     title: str
+#     component_id: str
+
+@router.post('/')
+def create_product_route(product: ProductCreate):
+    print("📩 Datos recibidos:", product)
+    return create_product(product.title, product.component_id)
+
+
 """
-# Crear un producto, desde una forma
+# Opcion 2
+# Para FormData (multipart/form-data)
+# FastAPI espera los datos como form-data, no como JASON
 @router.post('/')
 def create_product_route(
     title: str = Form(...),
-    component_id: str = Form(...),
+    component_id: str = Form(...)
 ):
     return create_product(title, component_id)
 """
-
-# Crear un producto - POSTMAN funciona ok
-@router.post('/')
-def create_product_route(product: ProductCreate):
-    return create_product(product.title, product.component_id)
 
 # Obtener los products de un componente específico - funciona ok
 @router.get("/component/{component_id}")

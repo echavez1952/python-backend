@@ -10,6 +10,7 @@ from routes import users
 from routes import menu
 from routes import product
 from routes import item
+from routes import location
 
 app = FastAPI()
 app.mount('/uploads', StaticFiles(directory='uploads'), name='uploads')
@@ -39,3 +40,10 @@ app.include_router(menu.router)
 app.include_router(product.router)
 
 app.include_router(item.router)
+
+app.include_router(location.router)
+
+@app.get("/")
+def health():
+    return {"ok": True}
+

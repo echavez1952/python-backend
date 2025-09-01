@@ -1,4 +1,4 @@
-# routes/menu.py - Endpoints de los componentes del mqenu
+# routes/menu.py - Endpoints de los componentes del menu
 
 from fastapi import APIRouter, Form
 from models.Menu import MenuComponent

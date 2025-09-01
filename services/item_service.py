@@ -15,7 +15,6 @@ items_collection = db["items"]
 # Obtener todos los items que hay en la base
 def get_items():
     try:
-        print("Conectando a MongoDB...")
         results = []
         items = list(items_collection.find())
         for it in items:
